@@ -12,21 +12,53 @@ public class EnemySpawner : MonoBehaviour
     public GameObject Spawn4;
     public GameObject Spawn5;
 
+    public GameObject Enemy1;
+    public GameObject Enemy2;
+    public GameObject Enemy3;
+
     private int enemyPick;
+
+    public bool canSpawn;
+    private float timer;
+    public float timeBetweenSpawning;
+
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        spawnPick = Random.Range(1, 5);
+        enemyPick = Random.Range(1, 5);
     }
 
     // Update is called once per frame
     void Update()
     {
-        spawnPick = Random.Range(1, 5);
-        enemyPick = Random.Range(1, 5);
+        if(canSpawn == true)
+        {
+            if(spawnPick == 1)
+            {
 
-        Debug.Log("Spawn " + spawnPick + " Enemy " + enemyPick);
+            }
+        }
 
+    }
+
+    private void WaveSpawn()
+    {
+        if (!canSpawn)
+        {
+            // Timer set to Time.deltaTime to get fire rate
+            timer += Time.deltaTime;
+
+            // If statement that controls the spawn rate
+            if (timer > timeBetweenSpawning)
+            {
+                // CanShoot is set equal to true
+                canSpawn = true;
+
+                // Timer set to 0
+                timer = 0;
+            }
+        }
     }
 }

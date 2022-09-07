@@ -4,30 +4,83 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    private Rigidbody2D playerRigidbody;
-    private float movementSpeed = 10f;
-    private float verticalMove;
+    private Rigidbody2D rb;
+    private Animator PlayerAnim;
+    public float PlayerSpeed;
+    private Vector2 PlayerInput;
+    public SpriteRenderer barrelExplosion;
 
-    // Start is called before the first frame update
-    void Start()
+    public GameObject bulletPrefab;
+    public Transform firePoint;
+    public AudioClip shootSound;
+    public AudioClip deathSound;
+
+    public bool canFire = true;
+    public float timeBetweenBullets;
+
+
+    /// <summary>
+    /// on awake
+    /// reference the player rigidbody
+    /// </summary>
+    private void Awake()
     {
-        playerRigidbody = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
+        //PlayerAnim = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    void Update()
-    { 
-        
+    /// <summary>
+    /// on update
+    /// call the muve function
+    /// </summary>
+    private void Update()
+    {
+        Move();
+        //Animate();
 
-        //If press W or UP arrow go up
-        
-        //IF press S or DOWN arrow go Down
-        
-        //If Press SPACE Shoot Bullet
-        //reference bullet Spawner
-        //start coroutine to delay time before next shot
+        if (Input.GetButton("Jump") && (canFire == true))
+        {
+            Shoot();
+        }
 
+        if (canFire == false)
+        {
+            DelayTimer();
+            canFire = true;
+        }
     }
 
+    private void Move()
+    {
+        float Horizontal = Input.GetAxisRaw("Horizontal");
+        float Vertical = Input.GetAxisRaw("Vertical");
+
+        if (Vertical == 0)
+        {
+            rb.velocity = new Vector2(0, 0);
+            return;
+        }
+
+        PlayerInput = new Vector2(Horizontal, Vertical);
+        rb.velocity = PlayerInput * PlayerSpeed * Time.fixedDeltaTime;
+    }
+
+
+    private void Shoot()
+    {
+        canFire = false;
+        Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
+        Vector3 camPos = Camera.main.transform.position;
+        AudioSource.PlayClipAtPoint(shootSound, camPos);
+        
     
+
+    }
+
+    IEnumerator DelayTimer()
+    {
+        
+        yield return new WaitForSeconds(10f);
+        
+    }
 }

@@ -4,15 +4,29 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
-    // Start is called before the first frame update
+    //starting health value
+    public int enemyHealth = 1;
+    //current enemy health
+    public int currentEnemyHealth;
+
+    public float enemySpeed = 10f;
+    private Rigidbody2D enemyRB;
+
+
     void Start()
     {
-        
+        currentEnemyHealth = enemyHealth;
+        enemyRB = GetComponent<Rigidbody2D>();
+        enemyRB.velocity = transform.right * -enemySpeed;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void EnemyTakeDamage(int damage)
     {
-        
+        currentEnemyHealth -= damage;
+
+        if (currentEnemyHealth <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }
