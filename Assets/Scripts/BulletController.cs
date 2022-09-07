@@ -23,6 +23,10 @@ public class BulletController : MonoBehaviour
             // Destroys game object
             Destroy(gameObject);
         }
+        else if (collision.CompareTag("OOB"))
+        {
+            Destroy(gameObject);
+        }
     }
 
 }
