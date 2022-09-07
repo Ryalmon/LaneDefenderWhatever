@@ -44,13 +44,10 @@ public class PlayerController : MonoBehaviour
             {
                 Shoot();
                 canFire = false;
+                StartCoroutine(Timer());
             }
 
-            else if (canFire != true)
-            {
-                StartCoroutine(Timer());
-                canFire = true;
-            }
+          
         }
     }
 
@@ -84,7 +81,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator Timer()
     {
         
-        yield return new WaitForSeconds(10);
-        
+        yield return new WaitForSeconds(1);
+        canFire = true;
     }
 }
