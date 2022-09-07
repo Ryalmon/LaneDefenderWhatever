@@ -41,11 +41,12 @@ public class PlayerController : MonoBehaviour
         if (Input.GetButton("Jump") && (canFire == true))
         {
             Shoot();
+            canFire = false;
         }
 
         if (canFire == false)
         {
-            DelayTimer();
+            StartCoroutine (Timer());
             canFire = true;
         }
     }
@@ -68,7 +69,7 @@ public class PlayerController : MonoBehaviour
 
     private void Shoot()
     {
-        canFire = false;
+       
         Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Vector3 camPos = Camera.main.transform.position;
         AudioSource.PlayClipAtPoint(shootSound, camPos);
@@ -77,10 +78,10 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    IEnumerator DelayTimer()
+    IEnumerator Timer()
     {
         
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(1);
         
     }
 }
