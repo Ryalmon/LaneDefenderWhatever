@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     public AudioClip shootSound;
     public AudioClip deathSound;
 
-    public bool canFire = true;
+    public bool canFire;
     public float timeBetweenBullets;
 
 
@@ -38,16 +38,19 @@ public class PlayerController : MonoBehaviour
         Move();
         //Animate();
 
-        if (Input.GetButton("Jump") && (canFire == true))
+        if (Input.GetButton("Jump"))
         {
-            Shoot();
-            canFire = false;
-        }
+            if (canFire == true)
+            {
+                Shoot();
+                canFire = false;
+            }
 
-        if (canFire == false)
-        {
-            StartCoroutine (Timer());
-            canFire = true;
+            else if (canFire != true)
+            {
+                StartCoroutine(Timer());
+                canFire = true;
+            }
         }
     }
 
@@ -81,7 +84,7 @@ public class PlayerController : MonoBehaviour
     IEnumerator Timer()
     {
         
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(10);
         
     }
 }
